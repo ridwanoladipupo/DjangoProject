@@ -1,3 +1,6 @@
+{% load django_tables2 %}
+{% load i18n %}
+{% block table-wrapper %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -18,34 +21,79 @@
             </div>
         </div>
 
-        <div class="container">
+<div class="container">
   <h2>Users Info</h2>
-             
-  <table class="table table-responsive">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Profession</th>
-        <th>Location</th>
-        <th>Email</th>
-        <th>LinkedIn</th>
-        <th>Twitter</th>
 
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Ridwan Oladipupo</td>
-        <td>Programmer</td>
-        <td>Lagos, Nigeria</td>
-        <td>ridwanoladipupo@mail.com</td>
-        <td>www.linkedin.com/ridwan-oladipupo</td>
-        <td>www.twitter.com/OLADIPUPORIDW18</td>
-      </tr>
-      
+  {% block table %}         
+    <table class="table table-responsive" {% render_attrs table.attrs %}>
+      {% block table.thead %}
+      {% if table.show_header %}
+        <thead {{ table.attrs.thead.as_html }}>
+          <tr>
+          
+            <th {{ column.attrs.th.as_html }}>
+            {{ column.header }}
+              <h6><strong>Id</strong></h6>
+            
+            </th>
+
+            <th {{ column.attrs.th.as_html }}>
+            {{ column.header }}
+              <h6><strong>Name</strong></h6>
+            
+            </th>
+
+            <th {{ column.attrs.th.as_html }}>
+            {{ column.header }}
+              <h6><strong>Profession</strong></h6>
+            </th>
+
+            <th {{ column.attrs.th.as_html }}>
+            {{ column.header }}
+              <h6><strong>Location</strong></h6>
+            </th>
+
+            <th {{ column.attrs.th.as_html }}>
+            {{ column.header }}
+              <h6><strong>Email</strong></h6>
+            </th>
+
+            <th {{ column.attrs.th.as_html }}>
+            {{ column.header }}
+              <h6><strong>LinkedIn</strong></h6>
+            </th>
+
+            <th {{ column.attrs.th.as_html }}>
+            {{ column.header }}
+              <h6><strong>Twitter</strong></h6>
+            </th>
+          
+
+        </tr>
+      </thead>
+    {% endif %}
+    {% endblock table.thead %}
+    
+    {% block table.tbody %}
+      <tbody {{ table.attrs.tbody.as_html }}>
+      {% for row in table.paginated_rows %}
+        {% block table.tbody.row %}
+        <tr {{ row.attrs.as_html }}>
+          {% for column, cell in row.items %}
+          
+            <td {{ column.attrs.td.as_html }}>{{ cell }}</td>
+           
+          {% endfor %}
+        </tr>
+      {% endblock table.tbody.row %}
+    {% endfor %} 
     </tbody>
-  </table>
+    {% endblock table.tbody %}
+
+    </table>
+  {% endblock %}
 </div>
+{% endblock table-wrapper %}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

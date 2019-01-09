@@ -2,16 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from .models import Biodata
+from .tables import BiodataTable
 
 
 def profile(request):
-    all_info = Biodata.objects.all()
-    template = loader.get_template("gallery/biodata.html")
+    table = BiodataTable(Biodata.objects.all())
 
-    context = {
-        'all_info' : all_info
-    }
-        
-    return HttpResponse(template.render(context, request))
+    return render(request, 'gallery/biodata.html', {'table' : table})
 
     
